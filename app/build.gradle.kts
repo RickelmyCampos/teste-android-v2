@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("kotlin-kapt")
     alias(libs.plugins.android.application)
@@ -26,9 +29,41 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDebuggable=false
+            isJniDebuggable=false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+            val secretPropertiesFile = rootProject.file("secrets.properties")
+            val secretProperties = Properties()
+            secretProperties.load(FileInputStream(secretPropertiesFile))
+            buildConfigField(
+                "String",
+                "URL",
+                secretProperties["URL"] as String
+            )
+            buildConfigField(
+                "String",
+                "TOKEN",
+                secretProperties["TOKEN"] as String
+            )
+        }
+        debug {
+            isDebuggable=true
+            isJniDebuggable=true
+            val secretPropertiesFile = rootProject.file("secrets.properties")
+            val secretProperties = Properties()
+            secretProperties.load(FileInputStream(secretPropertiesFile))
+            buildConfigField(
+                "String",
+                "URL",
+                secretProperties["URL"] as String
+            )
+            buildConfigField(
+                "String",
+                "TOKEN",
+                secretProperties["TOKEN"] as String
             )
         }
     }
@@ -41,6 +76,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"

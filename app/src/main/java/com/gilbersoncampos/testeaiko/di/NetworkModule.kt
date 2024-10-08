@@ -1,5 +1,6 @@
 package com.gilbersoncampos.testeaiko.di
 
+import com.gilbersoncampos.testeaiko.BuildConfig
 import com.gilbersoncampos.testeaiko.data.remote.datasource.ApiDataSource
 import com.gilbersoncampos.testeaiko.data.remote.datasource.ApiDataSourceImpl
 import com.gilbersoncampos.testeaiko.data.remote.retrofit.ApiService
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
-private const val BASE_URL = ""
+private const val BASE_URL = BuildConfig.URL
 private const val READ_TIMEOUT_SECONDS = 60L
 private const val CONNECT_TIMEOUT_SECONDS = 60L
 
