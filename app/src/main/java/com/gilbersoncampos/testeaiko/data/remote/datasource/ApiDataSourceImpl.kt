@@ -2,32 +2,34 @@ package com.gilbersoncampos.testeaiko.data.remote.datasource
 
 import android.util.Log
 import com.gilbersoncampos.testeaiko.BuildConfig
+import com.gilbersoncampos.testeaiko.data.model.BusStopModel
+import com.gilbersoncampos.testeaiko.data.remote.dto.BusStopResponseDto
 import com.gilbersoncampos.testeaiko.data.remote.retrofit.ApiService
+import com.gilbersoncampos.testeaiko.exception.CustomException
 import javax.inject.Inject
 
 class ApiDataSourceImpl @Inject constructor(private val service: ApiService) : ApiDataSource {
-    override suspend fun searchBusStopByTerm() {
+    override suspend fun searchBusStopByTerm(searchTerms: String): List<BusStopResponseDto> {
         try {
             login()
-            val call = service.searchBusStopByTerm(searchTerms = "Afonso", token = TOKEN)
+            val call = service.searchBusStopByTerm(searchTerms = searchTerms, token = TOKEN)
             if (call.isSuccessful) {
-                Log.d("busstop", "${call.body()}")
-            } else {
-                Log.d("busstop", "ERROR")
+                return call.body() ?: listOf()
             }
-
+            throw CustomException.ErrorException
         } catch (ex: Exception) {
-            Log.d("busstop", "ERROR ${ex.message}")
+            throw CustomException.ErrorException
         }
     }
-    private suspend fun login(){
+
+    private suspend fun login() {
         try {
-            val call= service.login(TOKEN)
-            if(call.isSuccessful){
-                Log.d("busstop","Logado")
+            val call = service.login(TOKEN)
+            if (!call.isSuccessful) {
+                throw CustomException.ErrorException
             }
-        }catch (e:Exception){
-            Log.d("busstop","Error Login")
+        } catch (e: Exception) {
+            throw CustomException.ErrorException
         }
     }
 

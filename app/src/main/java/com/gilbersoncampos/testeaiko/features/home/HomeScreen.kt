@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gilbersoncampos.testeaiko.commons.requestPermission
 import com.gilbersoncampos.testeaiko.components.GoogleMapComponent
+import com.gilbersoncampos.testeaiko.data.model.BusStopModel
 import com.gilbersoncampos.testeaiko.extensions.hasLocationPermission
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -40,10 +41,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
 @Composable
 fun HomeUi(uiState: HomeUiState) {
-    val location: LatLng? = when (uiState) {
-        HomeUiState.Loading -> null
-        is HomeUiState.Success -> uiState.location
+    val (location, listBusStop) = when (uiState) {
+        HomeUiState.Loading -> null to emptyList()
+        is HomeUiState.Success -> uiState.location to uiState.listBusStop
     }
-    GoogleMapComponent(location)
+    GoogleMapComponent(location,listBusStop)
 
 }

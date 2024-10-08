@@ -29,7 +29,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun GoogleMapComponent(position: LatLng?, listBusStop: List<BusStopModel>? = null) {
+fun GoogleMapComponent(position: LatLng?, listBusStop: List<BusStopModel> = emptyList()) {
     var isMapLoaded by remember {
         mutableStateOf(false)
     }
@@ -56,17 +56,16 @@ fun GoogleMapComponent(position: LatLng?, listBusStop: List<BusStopModel>? = nul
                 isTrafficEnabled = false
             )
         ) {
-            listBusStop?.let {
-                it.forEach { busStop ->
-                    MarkerComposable(
-                        state = MarkerState(position = busStop.position),
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_bus_stop),
-                            contentDescription = "",
-                            Modifier.size(20.dp)
-                        )
-                    }
+
+            listBusStop.forEach { busStop ->
+                MarkerComposable(
+                    state = MarkerState(position = busStop.position),
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_bus_stop),
+                        contentDescription = "",
+                        Modifier.size(20.dp)
+                    )
                 }
             }
 
