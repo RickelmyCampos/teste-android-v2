@@ -1,4 +1,4 @@
-package com.gilbersoncampos.testeaiko.features.busList
+package com.gilbersoncampos.testeaiko.features.busLines
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -9,7 +9,7 @@ import com.gilbersoncampos.testeaiko.destinations.Destination
 val ROUTE = Destination.BusLines.route
 fun NavGraphBuilder.busLineScreen() {
     composable(ROUTE) {
-        BusListScreen()
+        BusLinesScreen()
     }
 }
 fun NavHostController.navigateToBusLine(navOptions: NavOptions? = null) {

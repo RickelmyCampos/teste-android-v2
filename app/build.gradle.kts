@@ -110,6 +110,7 @@ dependencies {
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
     //serialization
     implementation(libs.kotlinx.serialization.json)
     //retrofit
@@ -123,6 +124,9 @@ dependencies {
     implementation(libs.maps.compose)
     implementation(libs.maps.compose.utils)
     implementation(libs.maps.compose.widgets)
+
+    implementation(libs.play.services.location)
+    implementation(libs.accompanist.permissions)
     //compose navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)

@@ -8,6 +8,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cookie
+import okhttp3.CookieJar
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,12 +27,30 @@ private const val CONNECT_TIMEOUT_SECONDS = 60L
 object NetworkModule {
     @Singleton
     @Provides
-    fun providesOkHttpClient(): OkHttpClient =
+    fun providesCookieJar(): CookieJar = object : CookieJar {
+
+        private val cookieStore: HashMap<String, List<Cookie>> = HashMap()
+
+        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+
+            cookieStore[url.host()] = cookies
+        }
+
+        override fun loadForRequest(url: HttpUrl): List<Cookie> {
+
+            return cookieStore[url.host()] ?: ArrayList()
+        }
+    }
+    @Singleton
+    @Provides
+    fun providesOkHttpClient(cookieJar: CookieJar): OkHttpClient =
         OkHttpClient
             .Builder()
+            .cookieJar(cookieJar)
             .readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
+
 
     @Singleton
     @Provides

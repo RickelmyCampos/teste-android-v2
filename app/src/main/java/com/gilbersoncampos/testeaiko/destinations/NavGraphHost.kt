@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.gilbersoncampos.testeaiko.features.busList.busLineScreen
+import com.gilbersoncampos.testeaiko.features.busLines.busLineScreen
 import com.gilbersoncampos.testeaiko.features.home.homeScreen
 
 @Composable
