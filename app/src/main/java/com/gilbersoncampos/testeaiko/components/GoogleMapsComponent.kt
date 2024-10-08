@@ -1,5 +1,6 @@
 package com.gilbersoncampos.testeaiko.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,9 @@ fun GoogleMapComponent(position: LatLng?, listBusStop: List<BusStopModel> = empt
                 }
             }
         }
+        LaunchedEffect(key1 = listBusStop) {
+            Log.d("maps",listBusStop.toString())
+        }
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             onMapLoaded = { isMapLoaded = true },
@@ -56,7 +60,6 @@ fun GoogleMapComponent(position: LatLng?, listBusStop: List<BusStopModel> = empt
                 isTrafficEnabled = false
             )
         ) {
-
             listBusStop.forEach { busStop ->
                 MarkerComposable(
                     state = MarkerState(position = busStop.position),

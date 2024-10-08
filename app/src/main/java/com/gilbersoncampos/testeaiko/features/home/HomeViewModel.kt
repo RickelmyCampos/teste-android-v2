@@ -30,11 +30,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             var lastFetchTime = System.currentTimeMillis()
             getLocationUseCase.invoke().collect { location ->
-                _uiState.value = HomeUiState.Success(location = location, listBusStop = listOf(
-                    BusStopModel("12", name = "teste", position = LatLng(-23.59572,-46.673285)),
-                    BusStopModel("12", name = "teste", position = LatLng(-23.594375,-46.673018))
-                ))
                 location?.let {
+                _uiState.update {
+                     currentState ->
+                        when (currentState) {
+                            is HomeUiState.Success -> currentState.copy(location = lastLocation)
+                            else -> HomeUiState.Success(location = location, listBusStop = emptyList() )
+                        }
+                }
                     val distance = lastLocation?.let { calculateDistance(it, location) }
                         ?: (locationUpdateThreshold + 1)
                     val currentTime = System.currentTimeMillis()
