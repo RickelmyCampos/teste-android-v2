@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     kotlin("plugin.serialization") version "1.9.23"
+
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -48,6 +50,11 @@ android {
                 "TOKEN",
                 secretProperties["TOKEN"] as String
             )
+            buildConfigField(
+                "String",
+                "API_KEY_MAPS",
+                secretProperties["API_KEY_MAPS"] as String
+            )
         }
         debug {
             isDebuggable=true
@@ -65,6 +72,11 @@ android {
                 "TOKEN",
                 secretProperties["TOKEN"] as String
             )
+            buildConfigField(
+                "String",
+                "API_KEY_MAPS",
+                secretProperties["API_KEY_MAPS"] as String
+            )
         }
     }
     compileOptions {
@@ -77,6 +89,12 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+    secrets{
+        propertiesFileName="secrets.properties"
+        defaultPropertiesFileName = "local.defaults.properties"
+        ignoreList.add("keyToIgnore")
+        ignoreList.add("sdk.*")
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -97,6 +115,15 @@ dependencies {
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    //maps
+    implementation(libs.play.services.maps)
+    implementation(libs.maps.ktx)
+    implementation(libs.maps.utils.ktx)
+    //compose maps library
+    implementation(libs.maps.compose)
+    implementation(libs.maps.compose.utils)
+    implementation(libs.maps.compose.widgets)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
