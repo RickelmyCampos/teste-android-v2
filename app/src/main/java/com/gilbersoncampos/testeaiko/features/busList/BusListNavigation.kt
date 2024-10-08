@@ -5,12 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.gilbersoncampos.testeaiko.destinations.Destination
-import com.gilbersoncampos.testeaiko.features.home.HomeScreen
 
 val ROUTE = Destination.BusLines.route
 fun NavGraphBuilder.busLineScreen() {
     composable(ROUTE) {
-        HomeScreen()
+        BusListScreen()
     }
 }
 fun NavHostController.navigateToBusLine(navOptions: NavOptions? = null) {
